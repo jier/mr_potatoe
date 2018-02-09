@@ -18,15 +18,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
+    
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        ConstraintLayout layout =  findViewById(R.id.portret);
+        ConstraintLayout layout =  findViewById(R.id.layout);
         View v = null;
-        int[] boxes  = new int[10];
-        for (int i = 1 ; i < layout.getChildCount(); i++) {
+        int[] boxes  = new int[12];
+        for (int i = 0 ; i < layout.getChildCount(); i++) {
             v = layout.getChildAt(i);
-            boxes[i-1] = v.getVisibility();
+            boxes[i] = v.getVisibility();
         }
         outState.putIntArray("checkedBox", boxes);
     }
@@ -36,11 +37,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         int[] checkedBox = savedInstanceState.getIntArray("checkedBox");
-        ConstraintLayout layout =  findViewById(R.id.land);
-        for (int i = 1; i < layout.getChildCount(); i++) {
+        ConstraintLayout layout =  findViewById(R.id.layout);
+        for (int i = 0; i < layout.getChildCount(); i++) {
             View v = layout.getChildAt(i);
             assert checkedBox != null;
-            v.setVisibility(checkedBox[i-1]);
+            v.setVisibility(checkedBox[i]);
         }
     }
 
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         CheckBox checkbox = (CheckBox) view;
         boolean check = checkbox.isChecked();
-
+        System.out.println(view.getId());
         switch (view.getId()) {
             case R.id.body:
                 if (check) {
