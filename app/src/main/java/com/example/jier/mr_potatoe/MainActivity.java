@@ -18,13 +18,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
-    
+
+    // Save checked boxes and their actions, i.e. the image clicked by it
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+
+        // Initialise id of constraint layout of the image
         ConstraintLayout layout =  findViewById(R.id.layout);
         View v = null;
-        int[] boxes  = new int[12];
+        int[] boxes  = new int[12]; // count the body as element
+
+        // get every element of the layout as view object and store it in an box array
         for (int i = 0 ; i < layout.getChildCount(); i++) {
             v = layout.getChildAt(i);
             boxes[i] = v.getVisibility();
@@ -32,24 +37,27 @@ public class MainActivity extends AppCompatActivity {
         outState.putIntArray("checkedBox", boxes);
     }
 
-
+    // restore every checked element and their images
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         int[] checkedBox = savedInstanceState.getIntArray("checkedBox");
         ConstraintLayout layout =  findViewById(R.id.layout);
+
+        // get every child that has been checked and set their visibility
         for (int i = 0; i < layout.getChildCount(); i++) {
             View v = layout.getChildAt(i);
             assert checkedBox != null;
             v.setVisibility(checkedBox[i]);
         }
     }
-
+    
+    // method to connect the layout with action of visible/invisible image by checkbox through id's
     public void checkClicked(@NonNull View view) {
 
         CheckBox checkbox = (CheckBox) view;
         boolean check = checkbox.isChecked();
-        System.out.println(view.getId());
+
         switch (view.getId()) {
             case R.id.body:
                 if (check) {
